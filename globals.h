@@ -8,6 +8,10 @@
 
 /* Game Elements */
 
+
+void move_player(int dx, int dy);
+
+
 const char FLOOR    = ' ';
 const char WALL     = '#';
 const char ENTRANCE = 'P';
