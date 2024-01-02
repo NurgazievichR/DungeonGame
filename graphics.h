@@ -68,8 +68,8 @@ void draw_level(){
     for (size_t row = 0; row < level.rows; ++row){
         for (size_t column = 0; column<level.columns; ++column){
             char cell = level.data[row*level.columns + column];
-            float x = shift_to_center_cell_by_x + static_cast<float>(row) * cell_size;
-            float y = shift_to_center_cell_by_y + static_cast<float>(column) * cell_size;
+            float x = shift_to_center_cell_by_x + static_cast<float>(column) * cell_size;
+            float y = shift_to_center_cell_by_y + static_cast<float>(row) * cell_size;
             switch (cell) {
                 case FLOOR:
                     draw_image(floor_image, x, y, cell_size);
@@ -96,6 +96,12 @@ void draw_level(){
     }
 }
 
+
+void draw_player(){
+    float x = shift_to_center_cell_by_x + static_cast<float>(player_column) * cell_size;
+    float y = shift_to_center_cell_by_y + static_cast<float>(player_row) * cell_size;
+    draw_sprite(player_sprite, x, y, cell_size);
+}
 
 
 void draw_pause_menu() {
