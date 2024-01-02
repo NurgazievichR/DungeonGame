@@ -79,9 +79,11 @@ level LEVEL_3 = {
 
 
 
-const size_t LEVEL_COUNT = 1;
+const size_t LEVEL_COUNT = 3;
 level LEVELS[LEVEL_COUNT] = {
-    LEVEL_1
+    LEVEL_1,
+    LEVEL_2,
+    LEVEL_3,
 };
 
 /* Loaded Level Data */
@@ -203,6 +205,7 @@ game_state game_state = MENU_STATE;
 void draw_menu();
 void draw_player_score();
 void derive_graphics_metrics_from_loaded_level();
+void draw_level();
 void draw_pause_menu();
 void create_victory_menu_background();
 void animate_victory_menu_background();

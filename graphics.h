@@ -64,6 +64,40 @@ void derive_graphics_metrics_from_loaded_level() {
     shift_to_center_cell_by_y = (screen_height - level_height) * 0.5f;
 }
 
+void draw_level(){
+    for (size_t row = 0; row < level.rows; ++row){
+        for (size_t column = 0; column<level.columns; ++column){
+            char cell = level.data[row*level.columns + column];
+            float x = shift_to_center_cell_by_x + static_cast<float>(row) * cell_size;
+            float y = shift_to_center_cell_by_y + static_cast<float>(column) * cell_size;
+            switch (cell) {
+                case FLOOR:
+                    draw_image(floor_image, x, y, cell_size);
+                    break;
+                case WALL:
+                    draw_image(wall_image, x, y, cell_size);
+                    break;
+                case ENTRANCE:
+                    draw_image(floor_image, x, y, cell_size);
+                    draw_image(entrance_image, x, y, cell_size);
+                    break;
+                case EXIT:
+                    draw_image(floor_image, x, y, cell_size);
+                    draw_image(exit_image, x, y, cell_size);
+                    break;
+                case COIN:
+                    draw_image(floor_image, x, y, cell_size);
+                    draw_sprite(coin_sprite, x, y, cell_size);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
+
+
 void draw_pause_menu() {
     ClearBackground(BLACK);
 
