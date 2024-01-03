@@ -172,7 +172,20 @@ const Color PAUSE_TITLE_COLOR     = WHITE;
 
 /* Victory Menu Background */
 
-// TODO: Add any variables or constants you need to create the background animation of the victory screen.
+const int count = 2000;
+
+const float max_speed = 2.0f;
+const float max_rotation_speed = 0.1f;
+unsigned int rays[count];
+float x[count];
+float y[count];
+float dx[count];
+float dy[count];
+float out_r[count];
+float in_r[count];
+Color color[count];
+float rotation[count];
+float rotation_speed[count];
 
 /* Victory Menu Text Parameters */
 
@@ -211,7 +224,12 @@ void derive_graphics_metrics_from_loaded_level();
 void draw_level();
 void draw_pause_menu();
 void create_victory_menu_background();
-void animate_victory_menu_background();
+void animate_victory_menu_background(unsigned int rays,
+                                     float x, float y,
+                                     float in_r, float out_r,
+                                     Color color = WHITE,
+                                     float r_angle = 0.0f,
+                                     float line_thickness = 1);
 void draw_victory_menu_background();
 void draw_victory_menu();
 

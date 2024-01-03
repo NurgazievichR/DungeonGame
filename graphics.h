@@ -120,15 +120,63 @@ void draw_pause_menu() {
 }
 
 void create_victory_menu_background() {
-    // TODO
+    for (int i = 0; i < count; ++i) {
+        rays[i] = static_cast<unsigned int>(GetRandomValue(30, 50));
+        rays[i] += rays[i] % 2;
+        in_r[i] = GetRandomValue(1.2f, 2.4f);
+        x[i] = GetRandomValue(out_r[i], screen_width - out_r[i]);
+        y[i] = GetRandomValue(out_r[i], screen_height - out_r[i]);
+        dx[i] = static_cast<float>(GetRandomValue(-max_speed, max_speed));
+        if (fabs(dx[i]) < 22E-40f) dx[i] = 2.0f;
+        dy[i] = static_cast<float>(GetRandomValue(-max_speed, max_speed));
+        if (fabs(dy[i]) < 22E-40f) dy[i] = 2.0f;
+        rotation[i] = 0.0f;
+        rotation_speed[i] = static_cast<float>(GetRandomValue(-max_rotation_speed, max_rotation_speed));
+        if (fabs(rotation_speed[i]) < 2E-4f) rotation_speed[i] = 0.01f;    }
+
+    EndDrawing();
+    BeginDrawing();
+    ClearBackground(BLACK);
+    EndDrawing();
+    BeginDrawing();
+    ClearBackground(BLACK);
 }
 
-void animate_victory_menu_background() {
-    // TODO
+void animate_victory_menu_background(unsigned int rays, float x, float y, float in_r, float out_r,
+                                     Color color, float r_angle, float line_thickness){
+
+    float angle = r_angle;
+    float angle_d = static_cast<float>(2.0 * M_PI / rays);
+    float prev_end_x = x + cos(angle - angle_d) * in_r;
+    float prev_end_y = y + sin(angle - angle_d) * in_r;
+    for (unsigned int i = 0; i < rays; i++) {
+        const float radius = i % 2 == 0 ? out_r : in_r;
+        const float end_x = x + cos(angle) * radius;
+        const float end_y = y + sin(angle) * radius;
+        DrawLineEx({ x, y }, { end_x, end_y }, line_thickness, WHITE);
+        DrawLineEx({ end_x, end_y }, { prev_end_x,
+                                       prev_end_y }, line_thickness, WHITE);
+        prev_end_x = end_x;
+        prev_end_y = end_y;
+        angle += angle_d;
+    }
 }
 
 void draw_victory_menu_background() {
-    ClearBackground(BLACK);
+    DrawRectangle(0, 0, screen_width, screen_height, { 0, 0, 0, 60 });
+    for (int i = 0; i < count; ++i) {
+        animate_victory_menu_background(rays[i], x[i], y[i], in_r[i], out_r[i],
+                                        color[i], rotation[i]);
+        x[i] += dx[i];
+        if (x[i] - out_r[i] < 0  || x[i] + out_r[i] > screen_width) {
+            dx[i] = -dx[i];
+        }
+        y[i] += dy[i];
+        if (y[i] - out_r[i] < 0 || y[i] + out_r[i] > screen_height) {
+            dy[i] = -dy[i];
+        }
+        rotation[i] += rotation_speed[i];
+    }
 }
 
 void draw_victory_menu() {
@@ -138,7 +186,6 @@ void draw_victory_menu() {
         { 0, 0, 0, 10 }
     );
 
-    animate_victory_menu_background();
     draw_victory_menu_background();
 
     const char *title = VICTORY_TITLE.c_str();
