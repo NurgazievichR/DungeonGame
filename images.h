@@ -23,6 +23,10 @@ void load_images() {
     exit_image     = LoadTexture("data/images/exit.png");
     coin_sprite    = load_sprite("data/images/coin/coin", ".png", 9);
     player_sprite  = load_sprite("data/images/player/player", ".png", 11);
+    swordR_sprite = load_sprite("dara/images/sword/rightward", ".png", 7);
+    swordL_sprite = load_sprite("dara/images/sword/leftward", ".png", 7);
+    swordU_sprite = load_sprite("dara/images/sword/upward", ".png", 7);
+    swordD_sprite = load_sprite("dara/images/sword/downward", ".png", 7);
 }
 
 void unload_images() {

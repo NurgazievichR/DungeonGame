@@ -80,7 +80,6 @@ int main() {
     load_fonts();
     load_images();
     load_next_level();
-
     while (!WindowShouldClose()) {
         BeginDrawing();
 
