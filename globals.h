@@ -239,4 +239,7 @@ void draw_sprite(sprite &sprite, float x, float y, float size);
 
 // TODO: Add forward declarations of all your functions to avoid circular dependencies.
 
+void load_sounds();
+void unload_sounds();
+
 #endif // GLOBALS_H

@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "levels.h"
 #include "iostream"
+#include "sounds.h"
 
 void move_player(int dx, int dy){
 
@@ -22,9 +23,10 @@ void move_player(int dx, int dy){
         if (cell == COIN){
             player_score+=POINTS_FOR_COIN;
             level.data[next_player_row*level.columns + next_player_column]=FLOOR;
-//            play sound?
+            PlaySound(coin_sound);
         }else if (cell == EXIT){
             load_next_level();
+            PlaySound(exit_sound);
         }
     }
 }

@@ -65,6 +65,7 @@ void derive_graphics_metrics_from_loaded_level() {
 }
 
 void draw_level(){
+    ClearBackground(BLACK);
     for (size_t row = 0; row < level.rows; ++row){
         for (size_t column = 0; column<level.columns; ++column){
             char cell = level.data[row*level.columns + column];
@@ -127,7 +128,7 @@ void animate_victory_menu_background() {
 }
 
 void draw_victory_menu_background() {
-    // TODO
+    ClearBackground(BLACK);
 }
 
 void draw_victory_menu() {

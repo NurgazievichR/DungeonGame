@@ -5,10 +5,12 @@
 #include "graphics.h"
 
 void load_next_level(){
+
     level_index++;
-    if (level_index>LEVEL_COUNT){
-        //To the end Screen
-        level_index = 0;
+    if (level_index>=LEVEL_COUNT){
+        game_state = VICTORY_STATE;
+        level_index =0;
+        create_victory_menu_background();
     }
     level = LEVELS[level_index];
     for (size_t row = 0; row < level.rows; ++row){
