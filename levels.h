@@ -3,14 +3,18 @@
 
 #include "globals.h"
 #include "graphics.h"
+#include "levels.h"
+
+
+
 
 void load_next_level(){
-
     level_index++;
-    if (level_index>=LEVEL_COUNT){
+    if (level_index==LEVEL_COUNT){
         game_state = VICTORY_STATE;
         level_index =0;
         create_victory_menu_background();
+        player_score =0;
     }
     level = LEVELS[level_index];
     for (size_t row = 0; row < level.rows; ++row){

@@ -5,6 +5,9 @@
 #include "levels.h"
 #include "iostream"
 #include "sounds.h"
+#include "vector"
+
+using namespace std;
 
 void move_player(int dx, int dy){
 
@@ -23,9 +26,14 @@ void move_player(int dx, int dy){
         if (cell == COIN){
             player_score+=POINTS_FOR_COIN;
             level.data[next_player_row*level.columns + next_player_column]=FLOOR;
+            coins_copy.push_back(next_player_row*level.columns + next_player_column);
             PlaySound(coin_sound);
         }else if (cell == EXIT){
+            for (auto i: coins_copy){
+                level.data[i] = '*';
+            }
             load_next_level();
+            coins_copy.clear();
             PlaySound(exit_sound);
         }
     }

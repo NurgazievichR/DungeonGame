@@ -1,5 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
+#include "vector"
 
 #include "raylib.h"
 
@@ -77,9 +78,7 @@ level LEVEL_3 = {
 
 
 
-
-
-
+std::vector<int> coins_copy;
 
 
 
