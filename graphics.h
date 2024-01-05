@@ -131,6 +131,23 @@ void draw_level(){
 
 
 void draw_player(){
+    if (level.data[player_column+player_row*level.rows]==ENEMY){
+            PlaySound(player_death_sound);
+            game_state = GAME_OVER_STATE;
+            cout << endl;
+            for (auto i: coins_copy){
+                level.data[i] = '*';
+            }
+            for (auto i: trees_copy){
+                level.data[i] = 'T';
+            }
+            coins_copy.clear();
+            trees_copy.clear();
+            level_index = -1;
+            enemy_index=-1;
+            load_next_level();
+            player_score = 0;
+    }
     float x = shift_to_center_cell_by_x + static_cast<float>(player_column) * cell_size;
     float y = shift_to_center_cell_by_y + static_cast<float>(player_row) * cell_size;
     draw_sprite(player_sprite, x, y, cell_size);

@@ -24,38 +24,73 @@ void update_game(){
                 game_state = PAUSED_STATE;
             } else if (IsKeyPressed(KEY_K)){
                 PlaySound(swordHit_sound);
-                if (level.data[(player_row*level.columns+player_column-1)]==FLOOR || level.data[(player_row*level.columns+player_column-1)]==TREE ){
+                if (level.data[(player_row*level.columns+player_column-1)]==FLOOR || level.data[(player_row*level.columns+player_column-1)]==TREE || level.data[(player_row*level.columns+player_column-1)]==ENEMY ){
                     change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column-1)], 'L');
                     if (level.data[(player_row*level.columns+player_column-1)]==TREE){
                         PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column-1)]);
                         trees_copy.push_back((player_row*level.columns+player_column-1));
+                    }  else
+
+                    if (level.data[(player_row*level.columns+player_column-1)]==ENEMY){
+                        player_score+=15;
+                        PlaySound(death_enemy_sound);
+                        enemy.alive = false;
+                        for (auto i: enemy.path){
+                            level.data[i] = ' ';
+                        }
                     }
+
                 }
-                if (level.data[(player_row*level.columns+player_column+1)]==FLOOR || level.data[(player_row*level.columns+player_column+1)]==TREE){
+                if (level.data[(player_row*level.columns+player_column+1)]==FLOOR || level.data[(player_row*level.columns+player_column+1)]==TREE || level.data[(player_row*level.columns+player_column+1)]==ENEMY){
                     change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column+1)], 'R');
                     if (level.data[(player_row*level.columns+player_column+1)]==TREE){
                         PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column+1)]);
                         trees_copy.push_back((player_row*level.columns+player_column+1));
+                    } else
+
+                    if (level.data[(player_row*level.columns+player_column+1)]==ENEMY){
+                        player_score+=15;
+                        PlaySound(death_enemy_sound);
+                        enemy.alive = false;
+                        for (auto i: enemy.path){
+                            level.data[i] = ' ';
+                        }
                     }
                 }
-                if (level.data[(player_row-1)*level.columns+player_column]==FLOOR || level.data[(player_row-1)*level.columns+player_column]==TREE){
+                if (level.data[(player_row-1)*level.columns+player_column]==FLOOR || level.data[(player_row-1)*level.columns+player_column]==TREE || level.data[(player_row-1)*level.columns+player_column]==ENEMY){
                     change_value_for_punch_temporarily(level.data[(player_row-1)*level.columns+player_column], 'U');
                     if (level.data[(player_row-1)*level.columns+player_column]==TREE){
                         PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row-1)*level.columns+player_column]);
                         trees_copy.push_back((player_row-1)*level.columns+player_column);
+                    } else
+
+                    if (level.data[(player_row-1)*level.columns+player_column]==ENEMY){
+                        player_score+=15;
+                        PlaySound(death_enemy_sound);
+                        enemy.alive = false;
+                        for (auto i: enemy.path){
+                            level.data[i] = ' ';
+                        }
                     }
                 }
-                if (level.data[(player_row+1)*level.columns+player_column]==FLOOR || level.data[(player_row+1)*level.columns+player_column]==TREE){
+                if (level.data[(player_row+1)*level.columns+player_column]==FLOOR || level.data[(player_row+1)*level.columns+player_column]==TREE || level.data[(player_row+1)*level.columns+player_column]==ENEMY){
                     change_value_for_punch_temporarily(level.data[(player_row+1)*level.columns+player_column], 'D');
                     if (level.data[(player_row+1)*level.columns+player_column]==TREE){
                         PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row+1)*level.columns+player_column]);
                         trees_copy.push_back((player_row+1)*level.columns+player_column);
+                    } else
 
-
+                    if (level.data[(player_row+1)*level.columns+player_column]==ENEMY){
+                        player_score+=15;
+                            PlaySound(death_enemy_sound);
+                            enemy.alive = false;
+                            for (auto i: enemy.path){
+                                level.data[i] = ' ';
+                            }
                     }
                 }
             }
@@ -127,7 +162,11 @@ int main() {
     load_fonts();
     load_images();
     load_next_level();
+
+
     while (!WindowShouldClose()) {
+
+
         BeginDrawing();
 
         update_game();
@@ -136,7 +175,6 @@ int main() {
         EndDrawing();
     }
     CloseWindow();
-
     unload_fonts();
     unload_images();
     unload_sounds();

@@ -1,14 +1,12 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 
-#include "globals.h"
-#include "graphics.h"
 #include "enemy.h"
 
-
-
 void load_next_level(){
+    PlaySound(background_sound);
     level_index++;
+    enemy.alive = true;
     enemy_index++;
     if (level_index==LEVEL_COUNT){
         game_state = VICTORY_STATE;

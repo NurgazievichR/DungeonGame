@@ -59,7 +59,7 @@ char LEVEL_2_DATA[] = {
         '#', ' ', '#',
         '#', ' ', '#',
         '#', '*', '#',
-        '#', 'T', '#',
+        '#', ' ', '#',
         '#', ' ', '#',
         '#', 'E', '#',
         '#', '#', '#',
@@ -121,10 +121,10 @@ char LEVEL_5_DATA[] = {
         '#', 'P', ' ', ' ', ' ', ' ', ' ', 'E', '#',
         '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
         '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
-        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
-        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
-        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
-        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#',
         '#', 'S', 'S', 'S', 'S', 'S', 'S', 'S', '#',
         '#', '#', '#', '#', '#', '#', '#', '#', '#'
 };
@@ -134,26 +134,63 @@ level LEVEL_5 = {
 };
 
 
+char LEVEL_6_DATA[] = {
+        '#', '#', '#', '#', '#', '#', '#',
+        '#', '*', '#', '*', '#', ' ', '#',
+        '#', '*', '#', 'T', '#', ' ', '#',
+        '#', '*', 'T', 'P', 'T', 'S', '#',
+        '#', '*', '#', 'T', '#', ' ', '#',
+        '#', '*', '#', ' ', ' ', 'E', '#',
+        '#', '#', '#', '#', '#', '#', '#',
+};
+
+level LEVEL_6 = {
+        7, 7,
+        LEVEL_6_DATA
+};
+
+char LEVEL_7_DATA[] = {
+        '#', '#', '#', '#', '#', '#', '#',
+        '#', 'P', 'S', 'S', 'S', 'S', '#',
+        '#', ' ', ' ', ' ', 'S', 'E', '#',
+        '#', 'S', 'S', ' ', 'S', ' ', '#',
+        '#', ' ', ' ', ' ', 'S', ' ', '#',
+        '#', ' ', 'S', 'S', ' ', ' ', '#',
+        '#', ' ', 'S', ' ', ' ', 'S', '#',
+        '#', ' ', 'S', ' ', 'S', 'S', '#',
+        '#', ' ', ' ', ' ', 'S', 'S', '#',
+        ' ', '#', '#', '#', '#', '#', '#',
+};
+
+level LEVEL_7 = {
+        10, 7,
+        LEVEL_7_DATA
+};
+
 
 std::vector<int> coins_copy;
 std::vector<int> trees_copy;
 
 
-const size_t LEVEL_COUNT = 5;
+const size_t LEVEL_COUNT = 7;
 level LEVELS[LEVEL_COUNT] = {
         LEVEL_1,
         LEVEL_2,
         LEVEL_3,
         LEVEL_4,
         LEVEL_5,
+        LEVEL_6,
+        LEVEL_7,
 };
 
 
 enemy level1_enemy = {{}};
 enemy level2_enemy = {{}};
-enemy level3_enemy = {{34,25,16,25,34,33,32,33,34}};
-enemy level4_enemy = {{}};
-enemy level5_enemy = {{46,47,56,57,58,49,40,41,40,49,58,57,56,47,46}};
+enemy level3_enemy = {{34,25,16,25,34,33,32,33}};
+enemy level4_enemy = {{55,56,57,63,57,56}};
+enemy level5_enemy = {{46,47,56,57,58,49,40,41,40,49,58,57,56,47}};
+enemy level6_enemy = {{12,19}};
+enemy level7_enemy = {{26,33,40}};
 
 
 enemy ENEMYES[LEVEL_COUNT] = {
@@ -162,6 +199,8 @@ enemy ENEMYES[LEVEL_COUNT] = {
         level3_enemy,
         level4_enemy,
         level5_enemy,
+        level6_enemy,
+        level7_enemy,
 };
 
 enemy enemy;
@@ -250,6 +289,9 @@ Sound coin_sound;
 Sound exit_sound;
 Sound swordHit_sound;
 Sound explosion_sound;
+Sound background_sound;
+Sound death_enemy_sound;
+Sound player_death_sound;
 
 /* Pause Text Parameters */
 
