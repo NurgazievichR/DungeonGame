@@ -65,6 +65,7 @@ void move_player(int dx, int dy){
             coins_copy.push_back(next_player_row*level.columns + next_player_column);
             PlaySound(coin_sound);
         }else if (cell == EXIT){
+            enemy.alive=false;
             for (auto i: coins_copy){
                 level.data[i] = '*';
             }

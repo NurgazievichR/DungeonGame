@@ -7,7 +7,6 @@
 #include <string>
 #include <cstddef>
 #include "vector"
-#include "enemy.h"
 
 /* Game Elements */
 
@@ -26,6 +25,7 @@ const char SWORD_LEFT_HIT = 'L';
 const char SWORD_RIGHT_HIT = 'R';
 const char TREE = 'T';
 const char DEAD_TREE = 't';
+const char ENEMY = 'V';
 
 /* Levels */
 
@@ -139,24 +139,20 @@ std::vector<int> coins_copy;
 
 const size_t LEVEL_COUNT = 5;
 level LEVELS[LEVEL_COUNT] = {
-        LEVEL_1,
-        LEVEL_2,
         LEVEL_3,
         LEVEL_4,
         LEVEL_5,
 };
 
 
-enemy level1_enemy = {{}};
-enemy level2_enemy = {{}};
+enemy level1_enemy = {{}, false};
+enemy level2_enemy = {{}, false};
 enemy level3_enemy = {{34,25,16,25,34,33,32,33,34}};
-enemy level4_enemy = {{}};
-enemy level5_enemy = {{}};
+enemy level4_enemy = {{}, false};
+enemy level5_enemy = {{}, false};
 
 
 enemy ENEMYES[LEVEL_COUNT] = {
-        level1_enemy,
-        level2_enemy,
         level3_enemy,
         level4_enemy,
         level5_enemy,
@@ -239,6 +235,7 @@ sprite swordR_sprite;
 sprite swordD_sprite;
 sprite swordU_sprite;
 sprite dead_tree_sprite;
+sprite enemy_sprite;
 
 /* Sounds */
 

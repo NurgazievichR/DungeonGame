@@ -3,11 +3,12 @@
 
 #include "globals.h"
 #include "graphics.h"
-
+#include "enemy.h"
 
 
 
 void load_next_level(){
+
     level_index++;
     enemy_index++;
     if (level_index==LEVEL_COUNT){
@@ -28,6 +29,7 @@ void load_next_level(){
         }
     }
     derive_graphics_metrics_from_loaded_level();
+    enemy_update();
 }
 
 

@@ -30,6 +30,7 @@ void load_images() {
     swordU_sprite = load_sprite("data/images/sword/upward/sword", ".png", 7);
     swordD_sprite = load_sprite("data/images/sword/downward/sword", ".png", 7);
     dead_tree_sprite = load_sprite("data/images/tree/tree", ".png",12);
+    enemy_sprite = load_sprite("data/images/enemy/enemy", ".png",8);
 
 }
 

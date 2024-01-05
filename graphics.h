@@ -114,6 +114,9 @@ void draw_level(){
                     draw_image(floor_image,x,y,cell_size);
                     draw_sprite(dead_tree_sprite,x,y,cell_size);
                     break;
+                case ENEMY:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(enemy_sprite,x,y,cell_size);
                 default:
                     break;
             }
