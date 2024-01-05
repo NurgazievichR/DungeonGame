@@ -3,13 +3,13 @@
 
 #include "globals.h"
 #include "graphics.h"
-#include "levels.h"
 
 
 
 
 void load_next_level(){
     level_index++;
+    enemy_index++;
     if (level_index==LEVEL_COUNT){
         game_state = VICTORY_STATE;
         level_index =0;
@@ -17,6 +17,7 @@ void load_next_level(){
         player_score =0;
     }
     level = LEVELS[level_index];
+    enemy = ENEMYES[enemy_index];
     for (size_t row = 0; row < level.rows; ++row){
         for (size_t column = 0; column<level.columns; ++column){
             char cell = level.data[row*level.columns + column];

@@ -90,6 +90,30 @@ void draw_level(){
                     draw_image(floor_image, x, y, cell_size);
                     draw_sprite(coin_sprite, x, y, cell_size);
                     break;
+                case SWORD_DOWN_HIT:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(swordD_sprite, x,y,cell_size);
+                    break;
+                case SWORD_UP_HIT:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(swordU_sprite, x,y,cell_size);
+                    break;
+                case SWORD_LEFT_HIT:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(swordL_sprite, x,y,cell_size);
+                    break;
+                case SWORD_RIGHT_HIT:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(swordR_sprite, x,y,cell_size);
+                    break;
+                case TREE:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_image(tree_image,x,y,cell_size);
+                    break;
+                case DEAD_TREE:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_sprite(dead_tree_sprite,x,y,cell_size);
+                    break;
                 default:
                     break;
             }
@@ -103,6 +127,8 @@ void draw_player(){
     float y = shift_to_center_cell_by_y + static_cast<float>(player_row) * cell_size;
     draw_sprite(player_sprite, x, y, cell_size);
 }
+
+
 
 
 void draw_pause_menu() {

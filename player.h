@@ -6,8 +6,44 @@
 #include "iostream"
 #include "sounds.h"
 #include "vector"
+#include "thread"
+#include "chrono"
+
 
 using namespace std;
+
+void temporarily_change_for_sword(char& cell, char NewValue){
+    char originalValue = cell;
+    cell = NewValue;
+    this_thread::sleep_for(std::chrono::duration<double>(0.25));
+    cell = originalValue;
+}
+
+void change_value_for_punch_temporarily(char& cell, char NewValue) {
+    thread symbolChangeThread([&cell, NewValue]() {
+        temporarily_change_for_sword(cell, NewValue);
+    });
+
+    symbolChangeThread.detach();
+}
+
+
+
+void temporarily_change_for_tree(char& cell){
+    this_thread::sleep_for(std::chrono::duration<double>(0.25));
+    cell = 't';
+    this_thread::sleep_for(std::chrono::duration<double>(0.9));
+    cell = ' ';
+}
+
+void change_value_for_tree_temporarily(char& cell) {
+    thread symbolChangeThread([&cell]() {
+        temporarily_change_for_tree(cell);
+    });
+
+    symbolChangeThread.detach();
+}
+
 
 void move_player(int dx, int dy){
 
@@ -20,7 +56,7 @@ void move_player(int dx, int dy){
     }
 
     char cell = level.data[next_player_row*level.columns + next_player_column];
-    if (cell != WALL){
+    if (cell != WALL && cell!=TREE){
         player_row = static_cast<size_t>(next_player_row);
         player_column = static_cast<size_t>(next_player_column);
         if (cell == COIN){
@@ -38,6 +74,7 @@ void move_player(int dx, int dy){
         }
     }
 }
+
 
 
 #endif //PLAYER_H

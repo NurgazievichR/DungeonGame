@@ -7,6 +7,7 @@
 
 #include <string>
 #include <cassert>
+#include <fstream>
 
 void load_fonts() {
     menu_font = LoadFont("data/fonts/ARCADECLASSIC.TTF");
@@ -21,12 +22,15 @@ void load_images() {
     floor_image    = LoadTexture("data/images/floor.png");
     entrance_image = LoadTexture("data/images/entrance.png");
     exit_image     = LoadTexture("data/images/exit.png");
+    tree_image = LoadTexture("data/images/tree/tree00.png");
     coin_sprite    = load_sprite("data/images/coin/coin", ".png", 9);
     player_sprite  = load_sprite("data/images/player/player", ".png", 11);
-    swordR_sprite = load_sprite("dara/images/sword/rightward", ".png", 7);
-    swordL_sprite = load_sprite("dara/images/sword/leftward", ".png", 7);
-    swordU_sprite = load_sprite("dara/images/sword/upward", ".png", 7);
-    swordD_sprite = load_sprite("dara/images/sword/downward", ".png", 7);
+    swordR_sprite = load_sprite("data/images/sword/rightward/sword", ".png", 7);
+    swordL_sprite = load_sprite("data/images/sword/leftward/sword", ".png", 7);
+    swordU_sprite = load_sprite("data/images/sword/upward/sword", ".png", 7);
+    swordD_sprite = load_sprite("data/images/sword/downward/sword", ".png", 7);
+    dead_tree_sprite = load_sprite("data/images/tree/tree", ".png",12);
+
 }
 
 void unload_images() {
@@ -110,5 +114,87 @@ void draw_sprite(sprite &sprite, float x, float y, float width, float height) {
     }
     sprite.prev_game_frame = game_frame;
 }
+
+
+
+// Структура для представления гифки
+struct sprite_once {
+    Texture2D* frames;
+    int frame_count;
+    int frame_index;
+    bool is_playing;
+};
+
+
+bool file_exists(const char* filename) {
+    std::ifstream file(filename);
+    return file.good();
+}
+
+sprite_once load_sprite_once(const char* folderPath, int frameCount) {
+    sprite_once spriteOnce;
+    spriteOnce.frames = (Texture2D*)malloc(frameCount * sizeof(Texture2D));
+    spriteOnce.frame_count = frameCount;
+    spriteOnce.frame_index = 0;
+    spriteOnce.is_playing = false;
+
+    for (int i = 0; i < frameCount; ++i) {
+        char filePath[256];
+        sprintf(filePath, "%s/frame_%04d.png", folderPath, i);
+
+        // Проверка наличия файла, если не найден, используется пустая текстура
+        if (file_exists(filePath)) {
+            Image image = LoadImage(filePath);
+            spriteOnce.frames[i] = LoadTextureFromImage(image);
+            UnloadImage(image);
+        } else {
+            // Используйте пустую текстуру или загрузите заранее подготовленную текстуру "отсутствует"
+            // spriteOnce.frames[i] = LoadTexture("path_to_missing_texture.png");
+        }
+    }
+
+    return spriteOnce;
+}
+
+
+
+void unload_sprite_once(sprite_once &spriteOnce) {
+    for (int i = 0; i < spriteOnce.frame_count; ++i) {
+        UnloadTexture(spriteOnce.frames[i]);
+    }
+
+    free(spriteOnce.frames);
+}
+
+
+
+void draw_sprite_once(sprite_once &spriteOnce, float x, float y, float width, float height) {
+    if (!spriteOnce.is_playing) {
+        return;
+    }
+
+    draw_image(spriteOnce.frames[spriteOnce.frame_index], x, y, width, height);
+
+    ++spriteOnce.frame_index;
+    if (spriteOnce.frame_index >= spriteOnce.frame_count) {
+        spriteOnce.is_playing = false;
+        spriteOnce.frame_index = 0;
+    }
+}
+
+
+
+void play_sprite_once(sprite_once &spriteOnce) {
+    spriteOnce.is_playing = true;
+    spriteOnce.frame_index = 0;
+}
+
+
+
+
+
+
+
+
 
 #endif // IMAGES_H

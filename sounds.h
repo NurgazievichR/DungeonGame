@@ -9,12 +9,14 @@
 void load_sounds(){
     coin_sound = LoadSound("data/sounds/coin.wav");
     exit_sound = LoadSound("data/sounds/exit.wav");
+    swordHit_sound = LoadSound("data/sounds/sword.wav");
 }
 
 
 void unload_sounds() {
     UnloadSound(coin_sound);
     UnloadSound(exit_sound);
+    UnloadSound(swordHit_sound);
 }
 
 

@@ -6,6 +6,8 @@
 
 #include <string>
 #include <cstddef>
+#include "vector"
+#include "enemy.h"
 
 /* Game Elements */
 
@@ -18,12 +20,23 @@ const char WALL     = '#';
 const char ENTRANCE = 'P';
 const char EXIT     = 'E';
 const char COIN     = '*';
+const char SWORD_UP_HIT = 'U';
+const char SWORD_DOWN_HIT = 'D';
+const char SWORD_LEFT_HIT = 'L';
+const char SWORD_RIGHT_HIT = 'R';
+const char TREE = 'T';
+const char DEAD_TREE = 't';
 
 /* Levels */
 
 struct level {
     size_t rows = 0, columns = 0;
     char *data = nullptr;
+};
+
+struct enemy{
+    std::vector<int> path;
+    bool alive = true;
 };
 
 char LEVEL_1_DATA[] = {
@@ -45,7 +58,7 @@ char LEVEL_2_DATA[] = {
         '#', ' ', '#',
         '#', ' ', '#',
         '#', '*', '#',
-        '#', ' ', '#',
+        '#', 'T', '#',
         '#', ' ', '#',
         '#', 'E', '#',
         '#', '#', '#',
@@ -60,9 +73,9 @@ level LEVEL_2 = {
 
 char LEVEL_3_DATA[] = {
         '#', '#', '#', '#', '#', '#', '#', '#', '#',
-        '#', 'P', ' ', ' ', '#', 'E', ' ', ' ', '#',
+        '#', 'P', ' ', 'T', '#', 'E', ' ', ' ', '#',
         '#', '#', '#', ' ', '#', '#', '#', ' ', '#',
-        '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#',
+        '#', 'T', ' ', ' ', '#', ' ', ' ', ' ', '#',
         '#', ' ', '#', '#', '#', '*', '#', '#', '#',
         '#', '*', '#', '*', '#', ' ', ' ', ' ', '#',
         '#', ' ', '#', ' ', '#', '#', '#', ' ', '#',
@@ -82,15 +95,15 @@ char LEVEL_4_DATA[] = {
 '#', 'P', '#', '#', '#', ' ', ' ', ' ', ' ',' ', ' ', '*', '#', ' ','#', '#',
 '#', ' ', '#', '*', ' ', ' ', '#', '#', '#','#', '#', ' ', ' ', ' ',' ', '#',
 '#', ' ', '#', ' ', '#', ' ', '#', ' ', ' ',' ', '#', ' ', '#', '#',' ', '#',
-'#', ' ', '#', ' ', '#', ' ', '#', '*', '#',' ', '#', ' ', '#', '#',' ', '#',
-'#', ' ', ' ', ' ', '#', ' ', '#', '#', '#',' ', '#', ' ', '#', '#','*', '#',
+'#', ' ', '#', ' ', '#', ' ', '#', '*', '#',' ', '#', ' ', '#', '#','T', '#',
+'#', ' ', ' ', 'T', '#', ' ', '#', '#', '#','T', '#', ' ', '#', '#','*', '#',
 '#', '#', ' ', '#', '#', ' ', ' ', ' ', '#',' ', '#', ' ', ' ', ' ',' ', '#',
 '#', '#', ' ', '#', '#', '#', '#', '*', '#',' ', '#', ' ', ' ', '#',' ', '#',
 '#', '#', ' ', ' ', ' ', '#', ' ', ' ', '#',' ', ' ', ' ', ' ', '#','*', '#',
-'#', '#', '#', '#', ' ', '#', ' ', '#', '#','#', ' ', '#', ' ', '#','#', '#',
+'#', '#', '#', '#', ' ', '#', 'T', '#', '#','#', ' ', '#', ' ', '#','#', '#',
 '#', ' ', '*', '#', ' ', '#', ' ', '#', '*','#', ' ', '#', ' ', ' ','*', '#',
-'#', ' ', '#', '#', ' ', '#', ' ', '#', ' ','#', ' ', '#', ' ', '#','#', '#',
-'#', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ',' ', ' ', '#', ' ', ' ','E', '#',
+'#', 'T', '#', '#', ' ', '#', ' ', '#', ' ','#', 'T', '#', ' ', '#','#', '#',
+'#', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ',' ', ' ', '#', ' ', 'T','E', '#',
 '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#','#', '#',
 
 
@@ -102,21 +115,55 @@ level LEVEL_4 = {
         LEVEL_4_DATA
 };
 
-
+char LEVEL_5_DATA[] = {
+        '#', '#', '#', '#', '#', '#', '#', '#', '#',
+        '#', 'P', ' ', ' ', ' ', ' ', ' ', 'E', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', '#', '#', '#', '#', '#', '#', '#', '#'
+};
+level LEVEL_5 = {
+        10, 9,
+        LEVEL_5_DATA
+};
 
 
 
 std::vector<int> coins_copy;
 
 
-
-const size_t LEVEL_COUNT = 4;
+const size_t LEVEL_COUNT = 5;
 level LEVELS[LEVEL_COUNT] = {
         LEVEL_1,
         LEVEL_2,
         LEVEL_3,
         LEVEL_4,
+        LEVEL_5,
 };
+
+
+enemy level1_enemy = {{}};
+enemy level2_enemy = {{}};
+enemy level3_enemy = {{34,25,16,25,34,33,32,33,34}};
+enemy level4_enemy = {{}};
+enemy level5_enemy = {{}};
+
+
+enemy ENEMYES[LEVEL_COUNT] = {
+        level1_enemy,
+        level2_enemy,
+        level3_enemy,
+        level4_enemy,
+        level5_enemy,
+};
+
+enemy enemy;
+size_t enemy_index = -1;
 
 /* Loaded Level Data */
 
@@ -173,6 +220,7 @@ Texture2D wall_image;
 Texture2D floor_image;
 Texture2D entrance_image;
 Texture2D exit_image;
+Texture2D tree_image;
 
 struct sprite {
     size_t frame_count    = 0;
@@ -190,11 +238,13 @@ sprite swordL_sprite;
 sprite swordR_sprite;
 sprite swordD_sprite;
 sprite swordU_sprite;
+sprite dead_tree_sprite;
 
 /* Sounds */
 
 Sound coin_sound;
 Sound exit_sound;
+Sound swordHit_sound;
 
 /* Pause Text Parameters */
 
@@ -291,5 +341,8 @@ void draw_sprite(sprite &sprite, float x, float y, float size);
 
 void load_sounds();
 void unload_sounds();
+
+
+
 
 #endif // GLOBALS_H

@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "iostream"
 
 #include "globals.h"
 #include "levels.h"
@@ -21,6 +22,32 @@ void update_game(){
                 move_player(1, 0);
             } else if (IsKeyPressed(KEY_ESCAPE)){
                 game_state = PAUSED_STATE;
+            } else if (IsKeyPressed(KEY_K)){
+                PlaySound(swordHit_sound);
+                if (level.data[(player_row*level.columns+player_column-1)]==FLOOR || level.data[(player_row*level.columns+player_column-1)]==TREE ){
+                    change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column-1)], 'L');
+                    if (level.data[(player_row*level.columns+player_column-1)]==TREE){
+                        change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column-1)]);
+                    }
+                }
+                if (level.data[(player_row*level.columns+player_column+1)]==FLOOR || level.data[(player_row*level.columns+player_column+1)]==TREE){
+                    change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column+1)], 'R');
+                    if (level.data[(player_row*level.columns+player_column+1)]==TREE){
+                        change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column+1)]);
+                    }
+                }
+                if (level.data[(player_row-1)*level.columns+player_column]==FLOOR || level.data[(player_row-1)*level.columns+player_column]==TREE){
+                    change_value_for_punch_temporarily(level.data[(player_row-1)*level.columns+player_column], 'U');
+                    if (level.data[(player_row-1)*level.columns+player_column]==TREE){
+                        change_value_for_tree_temporarily(level.data[(player_row-1)*level.columns+player_column]);
+                    }
+                }
+                if (level.data[(player_row+1)*level.columns+player_column]==FLOOR || level.data[(player_row+1)*level.columns+player_column]==TREE){
+                    change_value_for_punch_temporarily(level.data[(player_row+1)*level.columns+player_column], 'D');
+                    if (level.data[(player_row+1)*level.columns+player_column]==TREE){
+                        change_value_for_tree_temporarily(level.data[(player_row+1)*level.columns+player_column]);
+                    }
+                }
             }
             break;
         case PAUSED_STATE:
