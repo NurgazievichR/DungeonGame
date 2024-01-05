@@ -8,12 +8,12 @@
 
 
 void load_next_level(){
-
     level_index++;
     enemy_index++;
     if (level_index==LEVEL_COUNT){
         game_state = VICTORY_STATE;
         level_index =0;
+        enemy_index = 0;
         create_victory_menu_background();
         player_score =0;
     }

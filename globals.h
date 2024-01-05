@@ -26,6 +26,7 @@ const char SWORD_RIGHT_HIT = 'R';
 const char TREE = 'T';
 const char DEAD_TREE = 't';
 const char ENEMY = 'V';
+const char SHIPI = 'S';
 
 /* Levels */
 
@@ -93,7 +94,7 @@ level LEVEL_3 = {
 char LEVEL_4_DATA[] = {
 '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#','#', '#',
 '#', 'P', '#', '#', '#', ' ', ' ', ' ', ' ',' ', ' ', '*', '#', ' ','#', '#',
-'#', ' ', '#', '*', ' ', ' ', '#', '#', '#','#', '#', ' ', ' ', ' ',' ', '#',
+'#', ' ', '#', '*', ' ', ' ', '#', '#', '#','#', '#', 'S', ' ', ' ',' ', '#',
 '#', ' ', '#', ' ', '#', ' ', '#', ' ', ' ',' ', '#', ' ', '#', '#',' ', '#',
 '#', ' ', '#', ' ', '#', ' ', '#', '*', '#',' ', '#', ' ', '#', '#','T', '#',
 '#', ' ', ' ', 'T', '#', ' ', '#', '#', '#','T', '#', ' ', '#', '#','*', '#',
@@ -124,7 +125,7 @@ char LEVEL_5_DATA[] = {
         '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
         '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
         '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
-        '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#',
+        '#', 'S', 'S', 'S', 'S', 'S', 'S', 'S', '#',
         '#', '#', '#', '#', '#', '#', '#', '#', '#'
 };
 level LEVEL_5 = {
@@ -135,24 +136,29 @@ level LEVEL_5 = {
 
 
 std::vector<int> coins_copy;
+std::vector<int> trees_copy;
 
 
 const size_t LEVEL_COUNT = 5;
 level LEVELS[LEVEL_COUNT] = {
+        LEVEL_1,
+        LEVEL_2,
         LEVEL_3,
         LEVEL_4,
         LEVEL_5,
 };
 
 
-enemy level1_enemy = {{}, false};
-enemy level2_enemy = {{}, false};
+enemy level1_enemy = {{}};
+enemy level2_enemy = {{}};
 enemy level3_enemy = {{34,25,16,25,34,33,32,33,34}};
-enemy level4_enemy = {{}, false};
-enemy level5_enemy = {{}, false};
+enemy level4_enemy = {{}};
+enemy level5_enemy = {{46,47,56,57,58,49,40,41,40,49,58,57,56,47,46}};
 
 
 enemy ENEMYES[LEVEL_COUNT] = {
+        level1_enemy,
+        level2_enemy,
         level3_enemy,
         level4_enemy,
         level5_enemy,
@@ -217,6 +223,7 @@ Texture2D floor_image;
 Texture2D entrance_image;
 Texture2D exit_image;
 Texture2D tree_image;
+Texture2D shipi_image;
 
 struct sprite {
     size_t frame_count    = 0;
@@ -242,6 +249,7 @@ sprite enemy_sprite;
 Sound coin_sound;
 Sound exit_sound;
 Sound swordHit_sound;
+Sound explosion_sound;
 
 /* Pause Text Parameters */
 
@@ -289,7 +297,8 @@ enum game_state {
     MENU_STATE,
     GAME_STATE,
     PAUSED_STATE,
-    VICTORY_STATE
+    VICTORY_STATE,
+    GAME_OVER_STATE,
 };
 
 game_state game_state = MENU_STATE;
@@ -312,6 +321,9 @@ void animate_victory_menu_background(unsigned int rays,
                                      float line_thickness = 1);
 void draw_victory_menu_background();
 void draw_victory_menu();
+void draw_lose_menu_background();
+void create_lose_menu_background();
+void draw_lose_menu();
 
 // IMAGES_H
 
@@ -339,6 +351,16 @@ void draw_sprite(sprite &sprite, float x, float y, float size);
 void load_sounds();
 void unload_sounds();
 
+
+const std::string GAME_OVER_TITLE     = "You are Dead!";
+const float GAME_OVER_TITLE_FONT_SIZE = 200.0f;
+const float GAME_OVER_TITLE_Y_SHIFT   = 10.0f;
+const Color GAME_OVER_TITLE_COLOR     = RED;
+
+const std::string GAME_OVER_SUBTITLE     = "Press Enter to go back to menu";
+const float GAME_OVER_SUBTITLE_FONT_SIZE = 30.0f;
+const float GAME_OVER_SUBTITLE_Y_SHIFT   = 80.0f;
+const Color GAME_OVER_SUBTITLE_COLOR     = WHITE;
 
 
 

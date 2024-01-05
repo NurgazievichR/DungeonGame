@@ -27,25 +27,35 @@ void update_game(){
                 if (level.data[(player_row*level.columns+player_column-1)]==FLOOR || level.data[(player_row*level.columns+player_column-1)]==TREE ){
                     change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column-1)], 'L');
                     if (level.data[(player_row*level.columns+player_column-1)]==TREE){
+                        PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column-1)]);
+                        trees_copy.push_back((player_row*level.columns+player_column-1));
                     }
                 }
                 if (level.data[(player_row*level.columns+player_column+1)]==FLOOR || level.data[(player_row*level.columns+player_column+1)]==TREE){
                     change_value_for_punch_temporarily(level.data[(player_row*level.columns+player_column+1)], 'R');
                     if (level.data[(player_row*level.columns+player_column+1)]==TREE){
+                        PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row*level.columns+player_column+1)]);
+                        trees_copy.push_back((player_row*level.columns+player_column+1));
                     }
                 }
                 if (level.data[(player_row-1)*level.columns+player_column]==FLOOR || level.data[(player_row-1)*level.columns+player_column]==TREE){
                     change_value_for_punch_temporarily(level.data[(player_row-1)*level.columns+player_column], 'U');
                     if (level.data[(player_row-1)*level.columns+player_column]==TREE){
+                        PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row-1)*level.columns+player_column]);
+                        trees_copy.push_back((player_row-1)*level.columns+player_column);
                     }
                 }
                 if (level.data[(player_row+1)*level.columns+player_column]==FLOOR || level.data[(player_row+1)*level.columns+player_column]==TREE){
                     change_value_for_punch_temporarily(level.data[(player_row+1)*level.columns+player_column], 'D');
                     if (level.data[(player_row+1)*level.columns+player_column]==TREE){
+                        PlaySound(explosion_sound);
                         change_value_for_tree_temporarily(level.data[(player_row+1)*level.columns+player_column]);
+                        trees_copy.push_back((player_row+1)*level.columns+player_column);
+
+
                     }
                 }
             }
@@ -59,6 +69,7 @@ void update_game(){
             if (IsKeyPressed(KEY_ENTER)){
                 game_state = MENU_STATE;
                 level = LEVELS[0];
+                enemy = ENEMYES[0];
             }
             break;
         case MENU_STATE:
@@ -67,6 +78,11 @@ void update_game(){
             }
             if (IsKeyPressed(KEY_ENTER)){
                 game_state = GAME_STATE;
+            }
+            break;
+        case GAME_OVER_STATE:
+            if (IsKeyPressed(KEY_ENTER)){
+                game_state = MENU_STATE;
             }
             break;
     }
@@ -91,6 +107,10 @@ void draw_game(){
             break;
         case MENU_STATE:
             draw_menu();
+            break;
+        case GAME_OVER_STATE:
+            draw_lose_menu();
+            break;
     }
 
 

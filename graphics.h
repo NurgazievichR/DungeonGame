@@ -117,6 +117,11 @@ void draw_level(){
                 case ENEMY:
                     draw_image(floor_image,x,y,cell_size);
                     draw_sprite(enemy_sprite,x,y,cell_size);
+                    break;
+                case SHIPI:
+                    draw_image(floor_image,x,y,cell_size);
+                    draw_image(shipi_image,x,y,cell_size);
+                    break;
                 default:
                     break;
             }
@@ -237,5 +242,44 @@ void draw_victory_menu() {
     };
     DrawTextEx(menu_font, subtitle, subtitle_position, subtitle_font_size, 1, VICTORY_SUBTITLE_COLOR);
 }
+
+void create_lose_menu_background(){
+    EndDrawing();
+    BeginDrawing();
+    ClearBackground(BLACK);
+    EndDrawing();
+    BeginDrawing();
+    ClearBackground(BLACK);
+}
+
+void draw_lose_menu() {
+    ClearBackground(BLACK);
+    DrawRectangle(
+            0, 0,
+            static_cast<int>(screen_width), static_cast<int>(screen_height),
+            { 0, 0, 0, 10 }
+    );
+
+    const char *title = GAME_OVER_TITLE.c_str();
+    const float title_font_size = GAME_OVER_TITLE_FONT_SIZE * screen_scale;
+    const float title_y_shift   = GAME_OVER_TITLE_Y_SHIFT   * screen_scale;
+    Vector2 title_size = MeasureTextEx(menu_font, title, title_font_size, 1);
+    Vector2 title_position = {
+            (screen_width - title_size.x) * 0.5f,
+            screen_height * 0.5f - title_size.y * 0.5f - title_y_shift
+    };
+    DrawTextEx(menu_font, title, title_position, title_font_size, 1, GAME_OVER_TITLE_COLOR);
+
+    const char *subtitle = GAME_OVER_SUBTITLE.c_str();
+    const float subtitle_font_size = GAME_OVER_SUBTITLE_FONT_SIZE * screen_scale;
+    const float subtitle_y_shift   = GAME_OVER_SUBTITLE_Y_SHIFT   * screen_scale;
+    Vector2 subtitle_size = MeasureTextEx(menu_font, subtitle, subtitle_font_size, 1);
+    Vector2 subtitle_position = {
+            (screen_width - subtitle_size.x) * 0.5f,
+            screen_height * 0.5f - subtitle_size.y * 0.5f + subtitle_y_shift
+    };
+    DrawTextEx(menu_font, subtitle, subtitle_position, subtitle_font_size, 1, GAME_OVER_SUBTITLE_COLOR);
+}
+
 
 #endif // GRAPHICS_H

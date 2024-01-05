@@ -23,6 +23,7 @@ void load_images() {
     entrance_image = LoadTexture("data/images/entrance.png");
     exit_image     = LoadTexture("data/images/exit.png");
     tree_image = LoadTexture("data/images/tree/tree00.png");
+    shipi_image = LoadTexture("data/images/shipi.png");
     coin_sprite    = load_sprite("data/images/coin/coin", ".png", 9);
     player_sprite  = load_sprite("data/images/player/player", ".png", 11);
     swordR_sprite = load_sprite("data/images/sword/rightward/sword", ".png", 7);
@@ -39,8 +40,16 @@ void unload_images() {
     UnloadTexture(floor_image);
     UnloadTexture(entrance_image);
     UnloadTexture(exit_image);
+    UnloadTexture(tree_image);
+    UnloadTexture(shipi_image);
     unload_sprite(coin_sprite);
     unload_sprite(player_sprite);
+    unload_sprite(swordR_sprite);
+    unload_sprite(swordL_sprite);
+    unload_sprite(swordU_sprite);
+    unload_sprite(swordD_sprite);
+    unload_sprite(dead_tree_sprite);
+    unload_sprite(enemy_sprite);
 }
 
 void draw_image(Texture2D image, float x, float y, float size) {
